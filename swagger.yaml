@@ -124,6 +124,11 @@ paths:
             type: integer
             description: provider_id
         - in: query
+          name: user
+          schema:
+            type: integer
+            description: user_id
+        - in: query
           name: status
           schema:
             type: string
