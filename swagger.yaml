@@ -9,6 +9,7 @@ info:
 tags:
 - name: products
   description: "Everything about providers's services and orders"
+- name: billing
 #   externalDocs:
 #     description: "Find out more"
 #     url: "http://swagger.io"
@@ -194,6 +195,504 @@ paths:
           description: Authorized
         '406':
           description: Not Authorized
+  
+  /billing/create_request:
+    post:
+      security:
+        - Bearer: []
+      description: Создать заказы
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                billing_account:
+                  type: integer
+                  description: billing_account_id
+                amount:
+                  type: integer
+                type:
+                  type: string
+                  description: "RECIEVE for increase money, WITHDRAW for decrease money"
+                file:
+                  type: string
+                  format: binary
+            encoding: # The same level as schema
+              file: # Property name (see above)
+                # contentType: image/png, image/jpeg, image/svg, image/gif, image/webp
+                contentType: file/*
+      responses:
+        '200':
+          description: OK
+      tags:
+        - billing
+  
+  /billing/account/me:
+    get:
+      security:
+        - Bearer: []
+      description: Получить информацию о моем аккаунте
+      responses:
+        '200':
+          description: OK
+      tags:
+        - billing
+  
+  /billing/transactions:
+    get:
+      security:
+        - Bearer: []
+      description: Получить список транзакций
+      parameters:
+        - in: query
+          name: account
+          required: true
+          schema:
+            type: integer
+            description: 'account_id'
+      responses:
+        '200':
+          description: OK
+      tags:
+        - billing
+  
+  /providers:
+    get:
+      operationId: api_v1_providers_list
+      parameters:
+      - in: query
+        name: advertising_mark
+        schema:
+          type: boolean
+      - in: query
+        name: aggregators
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: allowed_publication_themes
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: announsment
+        schema:
+          type: integer
+      - in: query
+        name: city
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: country
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: days_to_prod
+        schema:
+          type: integer
+      - in: query
+        name: domains
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: finded_link_exchange
+        schema:
+          type: boolean
+      - in: query
+        name: index_CF_max
+        schema:
+          type: integer
+      - in: query
+        name: index_CF_min
+        schema:
+          type: integer
+      - in: query
+        name: index_DR_max
+        schema:
+          type: integer
+      - in: query
+        name: index_DR_min
+        schema:
+          type: integer
+      - in: query
+        name: index_IKS_max
+        schema:
+          type: integer
+      - in: query
+        name: index_IKS_min
+        schema:
+          type: integer
+      - in: query
+        name: index_TF_max
+        schema:
+          type: integer
+      - in: query
+        name: index_TF_min
+        schema:
+          type: integer
+      - in: query
+        name: index_TR_max
+        schema:
+          type: integer
+      - in: query
+        name: index_TR_min
+        schema:
+          type: integer
+      - in: query
+        name: index_a_hrefs_max
+        schema:
+          type: integer
+      - in: query
+        name: index_a_hrefs_min
+        schema:
+          type: integer
+      - in: query
+        name: index_alexa_rank_max
+        schema:
+          type: integer
+      - in: query
+        name: index_alexa_rank_min
+        schema:
+          type: integer
+      - in: query
+        name: index_backlinks_max
+        schema:
+          type: number
+      - in: query
+        name: index_backlinks_min
+        schema:
+          type: number
+      - in: query
+        name: index_da_moz_max
+        schema:
+          type: integer
+      - in: query
+        name: index_da_moz_min
+        schema:
+          type: integer
+      - in: query
+        name: index_domain_donors_max
+        schema:
+          type: integer
+      - in: query
+        name: index_domain_donors_min
+        schema:
+          type: integer
+      - in: query
+        name: index_google_max
+        schema:
+          type: integer
+      - in: query
+        name: index_google_min
+        schema:
+          type: integer
+      - in: query
+        name: index_google_news_max
+        schema:
+          type: integer
+      - in: query
+        name: index_google_news_min
+        schema:
+          type: integer
+      - in: query
+        name: index_organic_traffic_max
+        schema:
+          type: integer
+      - in: query
+        name: index_organic_traffic_min
+        schema:
+          type: integer
+      - in: query
+        name: index_spam_checktrust_max
+        schema:
+          type: integer
+      - in: query
+        name: index_spam_checktrust_min
+        schema:
+          type: integer
+      - in: query
+        name: index_traffic_max
+        schema:
+          type: integer
+      - in: query
+        name: index_traffic_min
+        schema:
+          type: integer
+      - in: query
+        name: index_trust_checktrust_max
+        schema:
+          type: integer
+      - in: query
+        name: index_trust_checktrust_min
+        schema:
+          type: integer
+      - in: query
+        name: index_yandex_max
+        schema:
+          type: integer
+      - in: query
+        name: index_yandex_min
+        schema:
+          type: integer
+      - in: query
+        name: index_yandex_news_max
+        schema:
+          type: integer
+      - in: query
+        name: index_yandex_news_min
+        schema:
+          type: integer
+      - in: query
+        name: keywords
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: languages
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: links
+        schema:
+          type: integer
+      - in: query
+        name: month_old
+        schema:
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: price_max
+        schema:
+          type: number
+      - in: query
+        name: price_min
+        schema:
+          type: number
+      - in: query
+        name: pub_format
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: state
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: themes
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: types
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: writing
+        schema:
+          type: boolean
+      tags:
+      - providers
+      responses:
+        '200':
+          description: ''
+
+  /providers/aggregators:
+    get:
+      operationId: api_v1_providers_aggregators_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - providers
+      responses:
+        '200':
+          description: ''
+
+  /providers/announcements:
+    get:
+      operationId: api_v1_providers_announcements_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - providers
+      responses:
+        '200':
+          description: ''
+  
+  /providers/domains:
+    get:
+      operationId: api_v1_providers_domains_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - providers
+      responses:
+        '200':
+          description: ''
+
+  /providers/pub_themes:
+    get:
+      operationId: api_v1_providers_pub_themes_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - providers
+      responses:
+        '200':
+          description: ''
+
+  /providers/themes:
+    get:
+      operationId: api_v1_providers_themes_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - providers
+      responses:
+        '200':
+          description: ''
+  
+  /providers/types:
+    get:
+      operationId: api_v1_providers_types_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - providers
+      responses:
+        '200':
+          description: ''
 
 components:
   securitySchemes:
