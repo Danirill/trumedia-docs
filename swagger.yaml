@@ -113,10 +113,10 @@ paths:
         - cart
   
   /products/cart/items/{item_id}:
-    post:
+    patch:
       security:
         - Bearer: []
-      description: Произвести действие c позицией корзины
+      description: Отредактировать позицию корзины
       parameters:
         - in: path
           name: item_id
@@ -132,8 +132,38 @@ paths:
       responses:
         '200':
           description: OK
-        '402':
-          description: Not enough money (For order)
+      tags:
+        - cart
+    delete:
+      security:
+        - Bearer: []
+      description: Удалить позицию корзины
+      parameters:
+        - in: path
+          name: item_id
+          required: true
+          schema:
+            type: integer
+            description: item_id
+      responses:
+        '200':
+          description: OK
+      tags:
+        - cart
+    get:
+      security:
+        - Bearer: []
+      description: Получить позицию корзины
+      parameters:
+        - in: path
+          name: item_id
+          required: true
+          schema:
+            type: integer
+            description: item_id
+      responses:
+        '200':
+          description: OK
       tags:
         - cart
   
