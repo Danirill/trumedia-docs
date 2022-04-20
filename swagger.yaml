@@ -46,23 +46,96 @@ paths:
       tags:
         - products
   
-  /products/orders/create:
+  /products/cart/items/create:
     post:
       security:
         - Bearer: []
-      description: Создать заказы
+      description: Создать позицию в корзине
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/orders'
+              type: object
+              properties:
+                product:
+                  type: integer
+                  description: product_id
+                options:
+                  type: array
+                  items:
+                    type: integer
+                    description: option_id
+      responses:
+        '200':
+          description: OK
+      tags:
+        - cart
+  
+  /products/cart/items:
+    get:
+      security:
+        - Bearer: []
+      description: Получить позиции корзины
+      responses:
+        '200':
+          description: OK
+      tags:
+        - cart
+  
+  /products/cart/items/action:
+    post:
+      security:
+        - Bearer: []
+      description: Произвести действие с отмеченными позициями корзины. Варианты - delete, info, order
+      parameters:
+        - in: query
+          name: action
+          schema:
+            type: string
+            description: action - delete, info, order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: integer
+                    description: cart_items_id
       responses:
         '200':
           description: OK
         '402':
-          description: not enough money
+          description: Not enough money (For order)
       tags:
-        - products
+        - cart
+  
+  /products/cart/items/{item_id}:
+    post:
+      security:
+        - Bearer: []
+      description: Произвести действие c позицией корзины
+      parameters:
+        - in: path
+          name: item_id
+          required: true
+          schema:
+            type: integer
+            description: item_id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cart_item'
+      responses:
+        '200':
+          description: OK
+        '402':
+          description: Not enough money (For order)
+      tags:
+        - cart
   
   /products/orders/{order_id}/owner_action:
     get:
@@ -129,6 +202,26 @@ paths:
             type: integer
             description: user_id
         - in: query
+          name: start_date
+          schema:
+            type: string
+            description: yyyy-mm-dd
+        - in: query
+          name: end_date
+          schema:
+            type: string
+            description: yyyy-mm-dd
+        - in: query
+          name: provider__name
+          schema:
+            type: string
+            description: yyyy-mm-dd
+        - in: query
+          name: product__type__name
+          schema:
+            type: string
+            description: yyyy-mm-dd
+        - in: query
           name: status
           schema:
             type: string
@@ -155,7 +248,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/refresh'
+              type: object
+              properties:
+                publication_url:
+                  type: string
+                  format: uri
+                  nullable: true
+                  maxLength: 200
+                quill_solution:
+                  type: string
+                  nullable: true
       responses:
         '200':
           description: OK
@@ -774,3 +876,17 @@ components:
                   description: client_id
                 quantity:
                   type: integer
+    cart_item:
+      type: object
+      properties:
+        options:
+          type: array
+          items:
+            type: integer
+            description: option_id
+        quill_task:
+          type: string
+          example: "{\"delta\":\"{\\\"ops\\\":[{\\\"insert\\\":\\\"Кекес3\\\\n\\\"}]}\",\"html\":\"<p>Кекесdd3</p>\"}"
+        product:
+          type: integer
+          description: product_id
