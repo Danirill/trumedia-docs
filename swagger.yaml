@@ -293,6 +293,116 @@ paths:
           description: OK
       tags:
         - products
+  
+  /products/create:
+    post:
+      security:
+        - Bearer: []
+      description: Создать продукт у СМИ
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product'
+      responses:
+        '200':
+          description: OK
+      tags:
+        - products
+  
+  /products/{product_id}:
+    patch:
+      security:
+        - Bearer: []
+      description: Изменить продукт
+      parameters:
+        - in: path
+          name: product_id
+          required: true
+          schema:
+            type: integer
+            description: 'product_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product'
+      responses:
+        '200':
+          description: OK
+      tags:
+        - products
+    delete:
+      security:
+        - Bearer: []
+      description: Удалить продукт у сми
+      parameters:
+        - in: path
+          name: option_id
+          required: true
+          schema:
+            type: integer
+            description: 'option_id'
+      responses:
+        '202':
+          description: OK
+      tags:
+        - products
+  
+  /products/option/create:
+    post:
+      security:
+        - Bearer: []
+      description: Создать дополнительную услугу у продукта
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/option'
+      responses:
+        '200':
+          description: OK
+      tags:
+        - products
+  
+  /products/option/{option_id}:
+    patch:
+      security:
+        - Bearer: []
+      description: Изменить доп. услугу
+      parameters:
+        - in: path
+          name: option_id
+          required: true
+          schema:
+            type: integer
+            description: 'option_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/option'
+      responses:
+        '200':
+          description: OK
+      tags:
+        - products
+    delete:
+      security:
+        - Bearer: []
+      description: Удалить доп. услугу
+      parameters:
+        - in: path
+          name: option_id
+          required: true
+          schema:
+            type: integer
+            description: 'option_id'
+      responses:
+        '202':
+          description: OK
+      tags:
+        - products
 
   /o/token/:
     post:
@@ -373,6 +483,44 @@ paths:
       responses:
         '200':
           description: OK
+      tags:
+        - billing
+  
+  /billing/account/{account_id}/edit:
+    patch:
+      security:
+        - Bearer: []
+      description: Изменить реквизиты своего биллинг аккаунта
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          schema:
+            type: integer
+            description: 'account_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payee_name:
+                  type: string
+                checking_account:
+                  type: string
+                bank_BIC:
+                  type: string
+                bank_name:
+                  type: string
+                correspondent_account_number:
+                  type: string
+                tax_number:
+                  type: string
+      responses:
+        '200':
+          description: OK
+        '403':
+          description: You are not an owner
       tags:
         - billing
   
@@ -698,6 +846,39 @@ paths:
       responses:
         '200':
           description: ''
+  
+  /providers/create:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/provider'
+      tags:
+      - providers
+      responses:
+        '200':
+          description: ''
+
+  /providers/{provider_id}/edit:
+    patch:
+      parameters:
+      - name: provider_id
+        required: true
+        in: path
+        description: provider_id
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/provider'
+      tags:
+      - providers
+      responses:
+        '200':
+          description: ''
 
   /providers/aggregators:
     get:
@@ -920,3 +1101,124 @@ components:
         product:
           type: integer
           description: product_id
+    provider:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        logo:
+          type: string
+        birthday:
+          type: string
+        description:
+          type: string
+          description: quill string
+        country:
+          type: array
+          items:
+            type: integer
+        state:
+          type: array
+          items:
+            type: integer
+        city:
+          type: array
+          items:
+            type: integer
+        languages:
+          type: array
+          items:
+            type: integer
+        themes:
+          type: array
+          items:
+            type: integer
+        types:
+          type: array
+          items:
+            type: integer
+        keywords:
+          type: array
+          items:
+            type: integer
+        domains:
+          type: array
+          items:
+            type: integer
+        aggregators:
+          type: array
+          items:
+            type: integer
+        allowed_publication_themes:
+          type: array
+          items:
+            type: integer
+        index_yandex:
+          type: integer
+        index_google:
+          type: integer
+        index_yandex_news:
+          type: integer
+        index_google_news:
+          type: integer
+        index_trust_checktrust:
+          type: integer
+        index_domain_donors:
+          type: integer
+        index_spam_checktrust:
+          type: integer
+        index_IKS:
+          type: integer
+        index_organic_traffic:
+          type: integer
+        index_traffic:
+          type: integer
+        index_CF:
+          type: integer
+        index_TF:
+          type: integer
+        index_TR:
+          type: integer
+        index_DR:
+          type: integer
+        index_alexa_rank:
+          type: integer
+        index_da_moz:
+          type: integer
+        index_a_hrefs:
+          type: integer
+        index_backlinks:
+          type: integer
+        writing:
+          type: boolean
+        advertising_mark:
+          type: boolean
+        days_to_prod:
+          type: integer
+        links:
+          type: integer
+        announsment:
+          type: integer
+    product:
+      type: object
+      properties:
+        price:
+          type: string
+        type:
+          type: integer
+        provider:
+          type: integer
+    option:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: string
+        product:  
+          type: integer
+    
+        
+      
