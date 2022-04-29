@@ -75,6 +75,17 @@ paths:
     get:
       security:
         - Bearer: []
+      parameters:
+        - in: query
+          name: product__type
+          schema:
+            type: integer
+            description: type_id
+        - in: query
+          name: provider__name
+          schema:
+            type: string
+            description: search query string
       description: Получить позиции корзины
       responses:
         '200':
@@ -536,6 +547,21 @@ paths:
           schema:
             type: integer
             description: 'account_id'
+        - in: query
+          name: type
+          schema:
+            type: string
+            description: 'type'
+        - in: query
+          name: finish_date
+          schema:
+            type: string
+            description: 'finish_date'
+        - in: query
+          name: start_date
+          schema:
+            type: string
+            description: 'start_date'
       responses:
         '200':
           description: OK
