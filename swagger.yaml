@@ -1037,6 +1037,44 @@ paths:
       responses:
         '200':
           description: ''
+  
+  /users/auth/sign_up/confirm_email/{str_token}:
+    get:
+      parameters:
+      - name: str_token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - users
+  
+  /users/{user_id}/edit:
+    post:
+      parameters:
+      - name: user_id
+        required: true
+        in: path
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string          
+      responses:
+        '200':
+          description: ''
+      tags:
+        - users
+        
+
 
 components:
   securitySchemes:
