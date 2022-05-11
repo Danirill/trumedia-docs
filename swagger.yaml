@@ -476,6 +476,25 @@ paths:
                 file:
                   type: string
                   format: binary
+                payee_name:
+                  type: string
+                  description: "Имя плательщика"
+                checking_account:
+                  type: string
+                  description: "Расчетный счет"
+                bank_BIC:
+                  type: string
+                  description: 'БИК Банка'
+                bank_name:
+                  type: string
+                  description: 'Название банка'
+                correspondent_account_number:
+                  type: string
+                  description: 'Корреспондентский адрес счета'
+                tax_number:
+                  type: string
+                  description: 'ИНН'
+                
             encoding: # The same level as schema
               file: # Property name (see above)
                 # contentType: image/png, image/jpeg, image/svg, image/gif, image/webp
