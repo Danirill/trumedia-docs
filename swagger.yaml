@@ -1040,6 +1040,7 @@ paths:
   
   /users/auth/sign_up/confirm_email/{str_token}:
     get:
+      description: Подтвердить почту
       parameters:
       - name: str_token
         required: true
@@ -1049,6 +1050,68 @@ paths:
       responses:
         '200':
           description: ''
+      tags:
+        - users
+  
+  /users/auth/sign_up/confirm_email/:
+    post:
+      description: Запросить письмо с подтверждением на почту
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  
+      responses:
+        '200':
+          description: 'OK, email sended'
+        '400':
+          description: 'User with this email does not exists'
+      tags:
+        - users
+  
+  /users/auth/sign_up/reset_password/{str_token}:
+    post:
+      description: Установить новый пароль
+      parameters:
+      - name: str_token
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - users
+  
+  /users/auth/sign_up/reset_password/:
+    post:
+      description: Запросить письмо с ссылкой для сброса пароля
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: 'OK, email sended'
+        '400':
+          description: 'User with this email does not exists'
       tags:
         - users
   
@@ -1073,6 +1136,38 @@ paths:
           description: ''
       tags:
         - users
+  
+  /images/upload:
+    post:
+      security:
+        - Bearer: []
+      description: 'Загрузить картинку'
+      parameters:
+        - in: query
+          name: compress
+          required: false
+          description: 'True или False'
+          schema:
+            type: string
+            description: 'Сжать ли исходное изображение'
+            example: 'true'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties: # Request parts
+                image:
+                  type: string
+                  format: binary
+            encoding: # The same level as schema
+              image: # Property name (see above)
+                contentType: image/png, image/jpeg, image/svg, image/gif, image/webp
+      responses:
+        '200':
+          description: OK
+      tags:
+        - "images"
         
 
 
