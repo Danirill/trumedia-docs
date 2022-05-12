@@ -458,7 +458,7 @@ paths:
     post:
       security:
         - Bearer: []
-      description: Создать заказы
+      description: Создать запрос на вывод средств
       requestBody:
         content:
           multipart/form-data:
@@ -502,6 +502,30 @@ paths:
       responses:
         '200':
           description: OK
+      tags:
+        - billing
+  
+  /billing/check_request:
+    post:
+      security:
+        - Bearer: []
+      description: Проверить комиссию на вывод
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                billing_account:
+                  type: integer
+                  description: billing_account_id
+                amount:
+                  type: integer
+      responses:
+        '200':
+          description: OK
+        '205':
+          description: 'Недостаточно средств'
       tags:
         - billing
   
